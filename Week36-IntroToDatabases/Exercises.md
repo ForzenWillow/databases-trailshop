@@ -205,21 +205,21 @@ Answer the following in your own words (write 2–3 sentences per point):
 > [!NOTE]
 > ***Your Answer***
 >
-> _(Write your answer here.)_
+> _(It would overwrite each others work. It would lead to data duplication. It would crash constantly because 10 people are editing 5000 items.)_
 
 2. List **3 benefits** of switching to a database system, explaining how each one solves a problem from your list above.
 
 > [!NOTE]
 > ***Your Answer***
 >
-> _(Write your answer here.)_
+> _( Concurrency control: it would allow all 10 people update items without risking for a crash or data loss/overwrite. Data Validation : Databases have strict constrains so there wont be no human error. Optimization: Databases are built for having loads of tables and there wouldnt be any slowdowns or crashes.)_
 
 3. Explain the three-schema architecture in your own words. Why is the separation into three levels useful?
 
 > [!NOTE]
 > ***Your Answer***
 >
-> _(Write your answer here.)_
+> _(three-schema architecture is split into 3 levels : External - Each user only sees what the data that they need and no other. Conceptual - It logical structure that fits the Database structure and lets you work without worrying about human error. Internal - Is the physical place where the database is stored . Overall its good because when you work you dont have to worry that you will accidently mess something up because it has data independence so it will only change one level without affecting the others.)_
 
 ---
 
