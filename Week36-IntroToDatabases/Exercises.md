@@ -233,7 +233,7 @@ Answer each question in 2–4 sentences. Reference the Theory material sections 
 _(See Section 1 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** "Information is structured data that supports a decision.​" As of now we have 0 data in our project but if we had for example: 12.99 and "Colorado" thats data that we can use to fill out information or reverse if we had : Our shop is based in Colorado and This item costs 12.99 . Thats information/context that we have tht we can fill in the data we need without extra details.  ***
 >
 > _(Write your answer here.)_
 
@@ -241,7 +241,9 @@ _(See Section 1 of this week's Theory material.)_
 _(See Section 2 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** 1st The hell of rewriting and updating the data of multiple Files will naturally go from a simple idea/fix to a time void/waster since youll have to update every single data on every single file that mentions that type of data and human errors will happen. ***
+*** 2nd Poor security. Youd open Files in Trailshop you would see almost every sensitive data in there, its bad for Data Leaks and Security reasons overall.  ***
+*** 3rd Concurrency . Managing multiple files could have problems with lost/overriten updates , if two programs change the files at the same time one would overwrite and the erase one ***
 >
 > _(Write your answer here.)_
 
@@ -249,15 +251,18 @@ _(See Section 2 of this week's Theory material.)_
 _(See Sections 3 and 4 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
->
+> *** DBMS is shorter for DataBase Management System its used to store,create and manage data in databases. ***
+> *** 1. Its a software that maintains and controlls the database ***
+> *** 2. Data independant , it lets you change data without forcing unrelated application change. ***
+> *** 3. Safety system. It can restore/recover after the failure or human error. ***
+> *** 4. It can give each role only what they need with operation permission and reject invalid changes at the source ***
 > _(Write your answer here.)_
 
 **Q4.** Explain program-data independence with a concrete example. Why is it important?
 _(See Section 5.2 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** For example you have database and you wanna add a new column : "descriptions" and theres already a "cost" and "name" tables , they will keep working without modification. ***
 >
 > _(Write your answer here.)_
 
@@ -265,7 +270,7 @@ _(See Section 5.2 of this week's Theory material.)_
 _(See Section 8 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** Metadata is Data about data for example : Product - It tells that a table called Prducts exists or "price" and its type NUMERIC(10), its says that the price collumn stores a decimal number with up to 10 digits. ***
 >
 > _(Write your answer here.)_
 
@@ -273,7 +278,10 @@ _(See Section 8 of this week's Theory material.)_
 _(See Section 3.3 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** Three-schema architecture is a model seperating databases into levels: ***
+*** External - Each user or aplication sees only the data relavent to them. *** 
+*** Conceptual - Its a logical structure that descries what data is stored and how it is related. ***
+*** Internal - It is how a data is stored on disk : file formats, index structures, data compression and buffer managment. Usually you rarely interact with it because DBMS handles it for you. ***
 >
 > _(Write your answer here.)_
 
@@ -281,7 +289,7 @@ _(See Section 3.3 of this week's Theory material.)_
 _(See Section 3.4 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
+> *** With the  logical data independacie you can change the conceptual scheme, add new columns to a table and it wont affect the external views and the Physical data independancie you can change how the data is physically stored and it wont change the logical structure or the application. One is internal the other is external change. ***
 >
 > _(Write your answer here.)_
 
@@ -289,8 +297,8 @@ _(See Section 3.4 of this week's Theory material.)_
 _(See Section 5.5 of this week's Theory material.)_
 
 > [!NOTE]
-> ***Your Answer***
->
+> *** A transaction is a unit of work that must be completly done or completely not done. ***
+> *** Atomicity is important because if for example a customers orders and item and it deducts from the quantity of a stock and later on the customer decides he doesnt want to buy it , the whole process of reducing the item stock would go back the way it was before ordering and wouldnt stay 1 item less. ***
 > _(Write your answer here.)_
 
 ### True/False
@@ -304,7 +312,7 @@ For each statement, write **True** or **False** and correct any false statements
 5. The conceptual level of the three-schema architecture describes how data is physically stored on disk.
 
 > [!NOTE]
-> ***Your Answer***
+> *** 1.False 2.True 3.True 4.False 5.False  ***
 >
 > _(Write True/False and corrections for all five statements above.)_
 
@@ -314,45 +322,45 @@ Match each term (1–10) with its definition (A–J).
 
 | #   | Term              |
 | --- | ----------------- |
-| 1   | Data dictionary   |
-| 2   | RDBMS             |
-| 3   | Concurrency       |
-| 4   | View              |
-| 5   | Schema            |
-| 6   | Data isolation    |
-| 7   | Transaction       |
-| 8   | SQL               |
-| 9   | Data independence |
-| 10  | ACID              |
+| 1 + | Data dictionary   |
+| 2 + | RDBMS             |
+| 3 + | Concurrency       |
+| 4 + | View              |
+| 5 + | Schema            |
+| 6 + | Data isolation    |
+| 7 + | Transaction       |
+| 8 + | SQL               |
+| 9 + | Data independence |
+|10 + | ACID              |
 
 | Letter | Definition                                                                          |
 | ------ | ----------------------------------------------------------------------------------- |
-| A      | A virtual table defined by a query, showing a subset of data                        |
-| B      | Multiple users accessing data at the same time                                      |
-| C      | The formal definition of a database's structure (tables, columns, types)            |
-| D      | A logical unit of work that must complete fully or not at all                       |
-| E      | The standard language for querying and managing relational databases                |
-| F      | The system catalog storing metadata about the database                              |
-| G      | Data trapped in separate files/formats that are hard to combine                     |
-| H      | A DBMS based on the relational model, using tables and SQL                          |
-| I      | The ability to change storage or structure without affecting applications           |
-| J      | Atomicity, Consistency, Isolation, Durability — properties of reliable transactions |
+| A   +   | A virtual table defined by a query, showing a subset of data                        |
+| B   +  | Multiple users accessing data at the same time                                      |
+| C   +   | The formal definition of a database's structure (tables, columns, types)            |
+| D   +   | A logical unit of work that must complete fully or not at all                       |
+| E   +   | The standard language for querying and managing relational databases                |
+| F   +   | The system catalog storing metadata about the database                              |
+| G   +   | Data trapped in separate files/formats that are hard to combine                     |
+| H   +   | A DBMS based on the relational model, using tables and SQL                          |
+| I   +  | The ability to change storage or structure without affecting applications           |
+| J   +   | Atomicity, Consistency, Isolation, Durability — properties of reliable transactions |
 
 > [!NOTE]
 > ***Your Answers***
 >
 > | #   | Your Match |
 > | --- | ---------- |
-> | 1   |            |
-> | 2   |            |
-> | 3   |            |
-> | 4   |            |
-> | 5   |            |
-> | 6   |            |
-> | 7   |            |
-> | 8   |            |
-> | 9   |            |
-> | 10  |            |
+> | 1   |     F      |
+> | 2   |     H      |
+> | 3   |     B      |
+> | 4   |     A      |
+> | 5   |     C      |
+> | 6   |     G      |
+> | 7   |     D      |
+> | 8   |     E      |
+> | 9   |     I      |
+> | 10  |     J      |
 
 ---
 
@@ -376,7 +384,10 @@ Connect to PostgreSQL using psql and complete the following. Write down the comm
 5. Quit psql.
 
 > [!NOTE]
-> ***Your Answer***
+> *** 1. \l ***
+> *** 2. \c trailshop ***
+> *** 3. \dt ***
+> *** 4. 4.1 \d  4.2 roles: \dg , \du users: \deu 4.3 \h[NAME] ***
 >
 > _(Document the commands you used and summarize the output for each step.)_
 
@@ -402,7 +413,28 @@ Why does the last query return no rows? What would you expect to see after creat
 > [!NOTE]
 > ***Your Answer***
 >
-> _(Write your answer here.)_
+> _(
+   trailshop=# SELECT current_database();
+ current_database 
+------------------
+ trailshop
+(1 row)
+ 
+ trailshop=# SELECT version();
+                                                      version                                                      
+-------------------------------------------------------------------------------------------------------------------
+ PostgreSQL 18.6 on aarch64-apple-darwin24.6.0, compiled by Apple clang version 17.0.0 (clang-1700.0.13.5), 64-bit
+(1 row)
+
+trailshop=# SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public';
+ table_name 
+------------
+(0 rows)
+
+Because there is no table named information_schema.tables
+ 
+ )_
 
 ### Exercise 3.3: Create and Drop a Test Database
 
