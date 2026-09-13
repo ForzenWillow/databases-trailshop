@@ -19,7 +19,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( The primary key in products is - product_id since its a unique row you can see in other table like categories: category_id and customers: customer_id. Since its a unique row it follow a way to store unique things that are important and cant be Null and should be stable. Thats what idetifies the row in the table.)*
 >
 >
 >
@@ -31,7 +31,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(In categories its : category_id.)*
 >
 >
 >
@@ -43,7 +43,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(A Foreign key in the prducts table is : category_id . It references the primary Key and its rows like the product_id 101 and category_id is 1 and so on.)*
 >
 >
 >
@@ -56,7 +56,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Yes 'name' in 'products' is a candidate key in this situation. Since every single name in the collumn is unique. It would make it unsuitable when there would be repetition then it wouldnt be considered a primary key since for it to be PK it would need uniqueness  .)*
 >
 >
 >
@@ -66,7 +66,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Not a Superkey in 'products' is the 'price',stock_quantity nad category_id, since there could be items in the table that have the same price, same category id or same stock numbers. For the superkey its manditory to have an attribute that is uniquely indentified .)*
 >
 >
 >
@@ -77,7 +77,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(An example would be order_id and product_id, on theyr own they are not uniques since a lot of id appear twice but when you put them together they are unique, because each product appears at most once.)*
 >
 >
 >
@@ -88,7 +88,7 @@ Using the `products`, `categories`, and `customers` tables shown in Section 2 of
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Yes 'email' in 'customers' can be a candidate key since there cant be two users sahring the same email address. Whats differet is that 'customer_id' is a surrogated key while 'email' is a natural key . Natural Keys can change an may be long and surrogated keys are more stable and have only single integers)*
 >
 >
 >
@@ -114,7 +114,7 @@ Think about rules for customers, orders, and categories — not just products.
 > [!NOTE]
 > ***Your Answer***
 >
-> *(List your 5 business rules with constraint types, table/column, and SQL syntax.)*
+> *( | Every single customers emails must be unique  | UNIQUE | email | `email VARCHAR(255) UNIQUE` |   | Every product has to have a name | NOT NULL | product_name | `name VARCHAR(100) NOT NULL` | | Orders must have statuses, where are they right now | CHECK | order_status | `CHECK (status IN ('pending','shipped','delivered','cancelled'))` | | Every product mus belong to a category of items | NOT NULL + FK | products.category_id | `category_id INTEGER NOT NULL REFERENCES categories` |  | Stock cannot be negative | CHECK | products.stock_quantity | `CHECK (stock_quantity >= 0)` | )*
 >
 >
 >
@@ -161,7 +161,7 @@ VALUES (1001, 101, 0, 189.50);
 > [!NOTE]
 > ***Your Answer***
 >
-> *(For each statement A–H, write SUCCESS or FAIL and explain any violation.)*
+> *( | A - Will fail because the category_id is set to NULL and it cannot be NULL, especially if its a PK. | )*
 >
 >
 >
