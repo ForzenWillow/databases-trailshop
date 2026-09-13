@@ -165,9 +165,17 @@ VALUES (1001, 101, 0, 189.50);
 >
 > *( B -  It will **succeed** )*
 >
+> *( C -  It will **fail** because `price` cannot be lower than 0)*
 >
+> *( D -  It will **fail** because there is already a product_id with 103 and it is a duplicate so it wont go through)*
 >
+> *( E - it will **succeed** )*
 >
+> *( F - it will **fail** because the name cannot be NULL )*
+>
+> *( G - it will **fail** because stock_quantity cannot be lower than 0)*
+>
+> *( H - it will **fail** because quantity cannot be 0)*
 
 ### Task 4: Foreign Key Actions
 
@@ -183,8 +191,8 @@ Consider the following scenario using the schema from Theory Section 9.8:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
+> *( 1. RESTRICT will get blocked because products 102 and 106 still use it as a reference so youd have to delete those products to delete the category. CASCADE will delete the table and all of the referencing rows. SET NULL the category 2 will get deleted and those products that have referenced it will be set to NULL  .)*
+> *(2. Id recommend RESTRICT so if someone wants to delete the category 2 they would have to first delete all the products or rows that reference that table for safety reasons. RESTRICT is better since if we would use NULL we would violate NOT NULL statement and CASCADE would just delete everything before even thining twice. )*
 >
 >
 >
@@ -205,11 +213,13 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Relation - Is a Table with sets of Rows and columns, and in those rows/columns there are values/information. For example in Trailshop - Categories, products and customers are tables and in them there are rows/columns of information.)*
 >
+> *( Tuple - Is a row and in each row there are a set of values. For example in Trailshop : (102, 'TrailMaster X4 Tent', 249.99, 15, 2). This tuple/row says that this Product is named TrailMaster X4 Tent, costs 249.99, has 15 units in stock, and belongs to category 2. .)*
 >
+> *( Attribute - Is a column that has a distinct name. For example in Trailshop we have: product_id, name, category_id, order_date and exc.)*
 >
->
+> *( Domain - Is a set of values with particular attributes. For example in Trailshop product_id has Positive integers value and price has positive decimal numbers.)*
 
 *(See Sections 2 and 3 of this week's Theory material.)*
 
@@ -219,7 +229,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Candidate key could be any column that could identify a row uniquely and Primary key is just a candidate key thay we pick to be like an official identifier fot the table In Trailshop the candidate key could be product_id and name if its guaranteed to have unique names  .)*
 >
 >
 >
@@ -233,7 +243,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Entity integrity is like bones of the structure if there wouldnt be no PK it you wouldnt be able to relaibly find, update or delete things. The same idea goes if the priamry key was NULL you wouldnt be able to relaibly do things .)*
 >
 >
 >
@@ -246,9 +256,10 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( If referential intefrity is violated there will be orphan records and we will try to address something that does not exist. )*
 >
->
+> *(`INSERT INTO products (product_id, name, price, stock_quantity, category_id) VALUES (109, 'Ghost Product', 59.99, 5, 99);`)*
+> *(`ERROR:  insert or update on table "products" violates foreign key constraint "products_category_id_fkey" DETAIL:  Key (category_id)=(99) is not present in table "categories".`)*
 >
 >
 
@@ -259,7 +270,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Surrogated key is an artificial key and its purpose is to uniquely identify rows and Natrual key is a key that is drawn from the data itself and not generated, to use as an alternate key when it is appropriate.)*
 >
 >
 >
@@ -273,7 +284,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( NULL value means that the value is unknown or just an empty string , theres nothing. Because if you use NULL to calculate the price or try to add to it a price for example `SELECT NULL + 67;` it will result to NULL. You should use `IS NULL` or `IS NOT NULL`.)*
 >
 >
 >
@@ -286,7 +297,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Junction table is a bridge between A table and B table since they cannot be represented directly with a foreign key. It is needed when you need to clearly represent both tables like `order_items` in Trailshop its a junction between orders and products tables.)*
 >
 >
 >
@@ -299,10 +310,21 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( 1:1 One-to-one is when one row in a table A also relates to exactly one row on a table B.)*
+>
+> *( products (1) ──── (1) product_details )*
 >
 >
+> *( 1:N One-to-Many is when a table A relates to many rws in a table B.)*
 >
+>*(categories (1) ──── (N) products)*
+>*(customers  (1) ──── (N) orders)*
+>*(orders     (1) ──── (N) order_items)*
+>
+>
+>*( M:M Many-to-Many is when many rows in table A relate to many rows in table B.)*
+>
+>*( products (M) ──── (N) tags)*
 >
 
 *(See Section 12 of this week's Theory material.)*
@@ -313,9 +335,9 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Cascade deletes everything, the row and what references it and restrict deletes the row if there are no referecing rows, if there there will be an error.)*
 >
->
+> *(cascade would be used when theres no meaning if its gone and restrict when there are independent values so everything wouldnt go)*
 >
 >
 
@@ -326,7 +348,7 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Its an invisable entrie that holds one row, one column and adds into one value. An example would be putting multiple categories in one cell, like putting Footware and Hiking into categories)*
 >
 >
 >
@@ -338,12 +360,12 @@ Answer each question in 2–4 sentences unless otherwise specified. Reference th
 
 For each statement, write **True** or **False** and correct any false statements.
 
-1. A superkey is always a candidate key.
-2. A primary key can consist of more than one column.
-3. NULL = NULL evaluates to TRUE in SQL.
-4. A foreign key must always be NOT NULL.
-5. Referential integrity ensures that every FK value matches an existing PK value (or is NULL).
-6. The degree of a relation is the number of rows.
+1. **FALSE** A superkey is always a candidate key.
+2. **TRUE** A primary key can consist of more than one column.
+3. **FALSE** NULL = NULL evaluates to TRUE in SQL.
+4. **FALSE** A foreign key must always be NOT NULL.
+5. **TRUE** Referential integrity ensures that every FK value matches an existing PK value (or is NULL).
+6. **FALSE** The degree of a relation is the number of rows.
 
 ### Matching Exercise
 
