@@ -162,6 +162,7 @@ VALUES (1001, 101, 0, 189.50);
 > ***Your Answer***
 >
 > *(  A - Will **fail** because the category_id is set to NULL and it cannot be NULL, especially if its a PK.  )*
+
 > *( B -  It will **succeed** )*
 >
 >
