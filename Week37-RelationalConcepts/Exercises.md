@@ -373,33 +373,33 @@ Match each term (1–12) with its definition (A–L).
 
 | # | Term |
 |---|---|
-| 1 | Superkey |
-| 2 | Candidate key |
-| 3 | Composite key |
-| 4 | Foreign key |
-| 5 | Alternate key |
-| 6 | Surrogate key |
-| 7 | Natural key |
-| 8 | Orphan record |
-| 9 | Domain |
-| 10 | Junction table |
-| 11 | Cardinality |
-| 12 | COALESCE |
+| 1 + | Superkey |
+| 2 + | Candidate key |
+| 3 + | Composite key |
+| 4 + | Foreign key |
+| 5 + | Alternate key |
+| 6 + | Surrogate key |
+| 7 + | Natural key |
+| 8 + | Orphan record |
+| 9 + | Domain |
+| 10 + | Junction table |
+| 11 + | Cardinality |
+| 12 + | COALESCE |
 
 | Letter | Definition |
 |---|---|
-| A | The set of all permitted values for an attribute |
-| B | A key composed of two or more attributes |
-| C | A row whose FK references a non-existent PK — forbidden by referential integrity |
-| D | An artificial key with no business meaning (e.g., auto-generated ID) |
-| E | A candidate key not chosen as the primary key |
-| F | Any set of attributes that uniquely identifies every tuple |
-| G | A minimal superkey — no attribute can be removed without losing uniqueness |
-| H | A column that references the primary key of another table |
-| I | The number of tuples (rows) in a relation |
-| J | A key drawn from real-world data with business meaning |
-| K | A table implementing a many-to-many relationship |
-| L | A SQL function that returns the first non-NULL argument |
+| A + | The set of all permitted values for an attribute |
+| B + | A key composed of two or more attributes |
+| C + | A row whose FK references a non-existent PK — forbidden by referential integrity |
+| D + | An artificial key with no business meaning (e.g., auto-generated ID) |
+| E + | A candidate key not chosen as the primary key |
+| F + | Any set of attributes that uniquely identifies every tuple |
+| G + | A minimal superkey — no attribute can be removed without losing uniqueness |
+| H + | A column <-?? that references the primary key of another table |
+| I + | The number of tuples (rows) in a relation |
+| J + | A key drawn from real-world data with business meaning |
+| K + | A table implementing a many-to-many relationship |
+| L + | A SQL function that returns the first non-NULL argument |
 
 
 > [!NOTE]
@@ -407,18 +407,18 @@ Match each term (1–12) with its definition (A–L).
 >
 > | # | Your Match |
 > |---|---|
-> | 1 | |
-> | 2 | |
-> | 3 | |
-> | 4 | |
-> | 5 | |
-> | 6 | |
-> | 7 | |
-> | 8 | |
-> | 9 | |
-> | 10 | |
-> | 11 | |
-> | 12 | |
+> | 1 | F |
+> | 2 | G |
+> | 3 | B |
+> | 4 | H |
+> | 5 | E |
+> | 6 | D |
+> | 7 | J |
+> | 8 | C |
+> | 9 |  A |
+> | 10 | K |
+> | 11 | I |
+> | 12 | L |
 >
 
 ---
@@ -448,52 +448,90 @@ CREATE TABLE employees (
 Assume these rows already exist:
 
 ```sql
-INSERT INTO departments VALUES (1, 'Engineering');
-INSERT INTO departments VALUES (2, 'Marketing');
-INSERT INTO employees VALUES (100, 'Alice', 75000, 1);
-INSERT INTO employees VALUES (101, 'Bob', 65000, 2);
+INSERT INTO departments VALUES (1, 'Engineering'); <-- this will pass
+INSERT INTO departments VALUES (2, 'Marketing'); <-- this will pass
+INSERT INTO employees VALUES (100, 'Alice', 75000, 1); <-- this will pass
+INSERT INTO employees VALUES (101, 'Bob', 65000, 2); <-- this will pass
 ```
 
 For each statement below, predict: **SUCCESS** or **FAIL**? If fail, name the violated constraint.
 
 ```sql
 -- 1
-INSERT INTO employees VALUES (102, 'Carol', 70000, 1);
+INSERT INTO employees VALUES (102, 'Carol', 70000, 1); "**SUCCESS**"
 
 -- 2
-INSERT INTO employees VALUES (103, 'Dan', -5000, 1);
+INSERT INTO employees VALUES (103, 'Dan', -5000, 1); "**FAIL** salary cant be minus"
 
 -- 3
-INSERT INTO employees VALUES (100, 'Eve', 80000, 2);
+INSERT INTO employees VALUES (100, 'Eve', 80000, 2); "**FAIL** emp_id must be unique"
 
 -- 4
-INSERT INTO employees VALUES (104, 'Frank', 60000, 5);
+INSERT INTO employees VALUES (104, 'Frank', 60000, 5); " **FAIL** theres no department 5"
 
 -- 5
-INSERT INTO departments VALUES (3, 'Engineering');
+INSERT INTO departments VALUES (3, 'Engineering'); "**FAIL** name has to be UNIQUE"
 
 -- 6
-INSERT INTO employees VALUES (105, NULL, 55000, 2);
+INSERT INTO employees VALUES (105, NULL, 55000, 2); "**FAIL** name cant be NULL"
 
 -- 7
-DELETE FROM departments WHERE dept_id = 1;
+DELETE FROM departments WHERE dept_id = 1; "**FAIL** it fails because of the REFERENCE in dept_id"
 
 -- 8
-INSERT INTO employees VALUES (106, 'Grace', 0, 2);
+INSERT INTO employees VALUES (106, 'Grace', 0, 2); "**SUCCESS**"
 ```
 
 ### Exercise 3.2: Write the Constraints
 
 Given these business rules for a **bookstore database**, write the `CREATE TABLE` statements with appropriate constraints:
 
-1. Every book has a unique ISBN (13 characters), a title (required), a price (must be positive), and a publication year.
-2. Every author has an ID, a first name (required), and a last name (required).
+1. Every book has a unique ISBN (13 characters), a title (required), a price (must be positive), and a publication year. +
+2. Every author has an ID, a first name (required), and a last name (required). +
 3. A book can have multiple authors, and an author can write multiple books.
 4. Every book belongs to exactly one genre. Genres have an ID and a unique name.
-5. Publication year must be between 1450 and the current year.
+5. Publication year must be between 1450 and the current year. +
 
 *(Hint: you'll need at least 4 tables, including a junction table for the M:N relationship.)*
 
+>[!NOTE]
+> ***Your Answers***
+**(1.)**
+```sql
+CREATE TABLE books(
+    book_id    INTEGER     PRIMARY KEY,
+    isbn          VARCHAR(13)      NOT NULL UNIQUE,
+    title         VARCHAR(100)     NOT NULL,
+    price         NUMERIC(10,2)    NOT NULL CHECK (price > 0),
+    year          INTEGER          NOT NULL CHECK (year BETWEEN 1450 AND 2026),
+    genre_id      INTEGER          NOT NULL REFERENCES genre(genre_id)
+);
+```
+**(2.)**
+```sql
+CREATE TABLE authors (
+    author_id     INTEGER       PRIMARY KEY,
+    first_name    VARCHAR(100)  NOT NULL,
+    last_name     VARCHAR(100)  NOT NULL
+);
+```
+
+**(3.)**
+```sql
+CREATE TABLE book_tags(
+    author_id     INTEGER     REFERENCES authors(author_id),
+    book_id       INTEGER     REFERENCES books(book_id),
+    PRIMARY KEY (author_id, book_id)
+);
+```
+
+**(4.)**
+```sql
+CREATE TABLE genre (
+    genre_id        INTEGER     PRIMARY KEY,
+    genre_name      VARCHAR(100)    NOT NULL UNIQUE
+);
+```
 ---
 
 ## Part 4: Design Exercise — Library System
@@ -520,15 +558,64 @@ A small public library needs a database. Here is a description of their requirem
 
 > [!NOTE]
 > ***Your Answer***
+> 
+> ```sql
+> CREATE TABLE books(
+>   book_id     INTEGER           PRIMARY KEY,
+>   isbn        VARCHAR(13)       NOT NULL UNIQUE,
+>   title       VARCHAR(100)      NOT NULL,
+>   publication_year    INTEGER   NOT NULL CHECK (publication_year BETWEEN 1450 AND 2026),
+>   genre_id     INTEGER          NOT NULL REFERENCES genre(genre_id)
+>); 
+> ```
 >
-> *(Write your answer here.)*
+>```sql
+> CREATE TABLE genre (
+>   genre_id    INTEGER     PRIMARY KEY,
+>   genre_name  VARCHAR(50)     NOT NULL UNIQUE
+>);
+>
+>```
+>
+>```sql
+> CREATE TABLE copies (
+>   copy_id    INTEGER     PRIMARY KEY,
+>   book_id    INTEGER     NOT NULL REFERENCES books(book_id),
+>   barcode_sticker   VARCHAR(50)       NOT NULL UNIQUE
+>);
+>```
+> 
+>```sql
+> CREATE TABLE members (
+>   member_id       INTEGER         PRIMARY KEY,
+>   member_number   INTEGER         NOT NULL UNIQUE,
+>   member_name     VARCHAR(50)     NOT NULL,
+>   member_email    VARCHAR(255)    NOT NULL UNIQUE,
+>   phone_number    VARCHAR(20)     NOT NULL 
+>);
+>
+>```
+>```sql
+> CREATE TABLE borrowings (
+>   borrowing_id    INTEGER     PRIMARY KEY,
+>   copy_id         INTEGER     REFERENCES copies(copy_id),
+>   member_id       INTEGER     REFERENCES members(member_id),
+>   borrow_date     DATE        NOT NULL,
+>   due_date        DATE        NOT NULL,
+>   return_date     DATE  
+>);
+>
+>```
 >
 >
+> *(1-3 are displayed in the upper level , 4. Alternate keys could be : books.ibsn; genre.genre_name; )*
+> *(5. [1] A Copy cant be borrowed if its still not returned - It has to look at other rows before it can allow to INSERT. [2] Due Date = Borrow date + 14 days - Can be a CHECK comparing two columns . [3] A member can have at most 5 unreturned books - Needs to count rows across the table.)*
+>*(Rules that cannit be enforced : 1. and 3.)*
 >
 >
 6. **Write the CREATE TABLE statements** for at least the `books`, `copies`, and `borrowings` tables with full constraints.
 
----
+*(Check the upper task)*
 
 ## Submission Checklist
 
