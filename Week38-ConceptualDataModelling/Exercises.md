@@ -12,18 +12,20 @@ These exercises accompany the Week 38 Theory material. Refer to the theory secti
 
 **Goal:** Create a complete Entity-Relationship diagram for the TrailShop database using crow's foot notation.
 
+> **From Week 37:** Last week each product had a single `category_id` (Category 1:N Product). That cannot store a product in two categories. This week's diagram must **not** put `category_id` on Product. Use **ProductCategory** as the junction that resolves Category M:N Product (see Theory Section 1.4).
+
 ### Instructions
 
 Using the entity descriptions from Theory Section 12, create an ER diagram that includes:
 
-1. **All five entities**: Category, Product, Customer, Order, OrderItem
+1. **All six entities**: Category, Product, ProductCategory, Customer, Order, OrderItem
 2. **All attributes** for each entity (as listed in Section 12.1)
 3. **Primary keys** clearly marked (underline or "PK" label)
 4. **Foreign keys** clearly marked (dashed underline or "FK" label)
 5. **Relationships** between entities with:
    - Relationship name (verb)
    - Crow's foot notation showing cardinality and participation
-6. **Identify weak entities** — mark OrderItem as a weak entity
+6. **Identify weak / junction entities** — mark OrderItem as a weak entity, and mark ProductCategory as the junction that resolves Category M:N Product. Do **not** draw a direct M:N line between Category and Product.
 
 ### Requirements
 
@@ -35,7 +37,7 @@ Using the entity descriptions from Theory Section 12, create an ER diagram that 
 ### Deliverables
 
 - The ER diagram (image or link to online tool)
-- A short written paragraph (3–5 sentences) explaining one design decision you made — for example, why OrderItem is a weak entity, or why `unit_price` is stored in OrderItem instead of being looked up from Product.
+- A short written paragraph (3–5 sentences) that **must** explain why Week 37's 1:N `products.category_id` is being replaced by ProductCategory. You may also discuss another design decision (for example why OrderItem is a weak entity, or why `unit_price` is stored in OrderItem).
 
 > [!NOTE]
 > ***Your Answer***
@@ -50,7 +52,7 @@ Using the entity descriptions from Theory Section 12, create an ER diagram that 
 
 ## Exercise 2: Theory Review Questions
 
-Answer each question in 2–4 sentences. Reference the relevant theory section.
+Answer each question in 2–4 sentences. Reference the relevant theory section. Question 11b is extra: it connects last week's 1:N category FK to this week's junction.
 
 1. Why should you create a conceptual data model before writing SQL? Give two specific reasons. *(Section 1)*
 
@@ -152,6 +154,17 @@ Answer each question in 2–4 sentences. Reference the relevant theory section.
 10. In crow's foot notation, what does the following endpoint mean: a circle followed by a crow's foot (fork)? *(Section 9)*
 
 11. Why can't a many-to-many (M:N) relationship be directly implemented in a relational database? What is the solution? *(Section 10)*
+
+> [!NOTE]
+> ***Your Answer***
+>
+> *(Write your answer here.)*
+>
+>
+>
+>
+
+11b. Last week TrailShop used `products.category_id` so each product belonged to exactly one category. Why is that insufficient, and what ER construct replaces it? *(Section 1.4)*
 
 > [!NOTE]
 > ***Your Answer***
@@ -497,8 +510,8 @@ c) Describe how to fix it
 
 ## Submission Checklist
 
-- [ ] Exercise 1: ER diagram + design decision paragraph
-- [ ] Exercise 2: All 12 theory review answers
+- [ ] Exercise 1: ER diagram + design decision paragraph (including why Week 37's category FK is replaced)
+- [ ] Exercise 2: All 12 theory review answers, plus 11b
 - [ ] Exercise 3: All questions answered for both Diagram A and Diagram B
 - [ ] Exercise 4: Entity list, relationship list, ER diagram, and justifications
 - [ ] Exercise 5: Four errors identified with explanations and corrections
