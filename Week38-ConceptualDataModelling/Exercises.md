@@ -59,7 +59,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(1. Its a good idea of creating an idea and how it would look before starting doing the sql since adding extra stuff or fixing not needed things is expensive it adds a layer of unneeded expense. 2. Its a good idea to map out the whole database first before starting to work on it, since there might be some things that need to be changed or extra layers of duplicated data that need to be diverced somewhere else.)*
 >
 >
 >
@@ -70,7 +70,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Conceptual level is where all the data and relationships between data elements are viewed and are decided what kind of information does the organzation need to track. Logical level is where the conceptual level is transalted into a structure of a specific database system.)*
 >
 >
 >
@@ -81,7 +81,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(With logical data independance you can change the conceptual schema without changing the external schemas. For example : You can split a table for example `Food` table into `food` and `food_details`, you can redefine the table to JOIN the two tables it is hard to achieve in practice but it is the most ideal way to do it.)*
 >
 >
 >
@@ -92,7 +92,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(With physical data independance you can change the internal schema without changing the conceptual or external schema. For example you move a database from a one disk to another, you can add an index to speed up searches on for example `book.title`.)*
 >
 >
 >
@@ -103,7 +103,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Strong entitie is a uniquely identified by its own atributes and does not depend on other entitys for example `book` each book has its own `book_id`, but for weak entity it cannot be uniquely identified by its own attributes, it has to depend on a related strong attribute for example `chapter` there can be multiple chapters in different books  .)*
 >
 >
 >
@@ -114,7 +114,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Composite attribute is a property that can describe an entity into smaller, meaningful sub-attributes like `address` can be broken down into sub-attributes : street, city, zipcode and exc. where a multivalued attribute can hold multiple idividual values for a single entity like `phone numbers`, one person can have multiple phone numbers : work, home, mobile number. )*
 >
 >
 >
@@ -125,7 +125,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(deriered attribute is ones value who can be calculated from other attributes. Its not stored in databases since you can get values from different attributes like `age` from `date_of_birth`, we dont need to store it we nac instead querie it.)*
 >
 >
 >
@@ -135,7 +135,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Binary relationship involves exactly 2 entity types for example `book` belongs to `category`, while unary relationship only involves single type of entity that is related to itself for example `glasses` and `windows` can both be a subcategory of `glass`, both also can be categories.)*
 >
 
 
@@ -145,20 +145,29 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
+> *(identifying relationship is where a childs PK includes the parents PK, the parents PK migrates into the childs table PK area and non-identifying is where the Foreign Key is not part of primary key, the parent PK migrates to a non-key/regular attribute area of the child table as a FK .)*
+> 
 
 
 
 
 10. In crow's foot notation, what does the following endpoint mean: a circle followed by a crow's foot (fork)? *(Section 9)*
 
+> [!NOTE]
+> ***Your Answer***
+>
+> *(It means Zero or Many - the zero describes the minimum cardinality simbols while crow's foot/fork describes the maximum cardinality symbols. For example: Author can have 0 or many books written.)*
+>
+>
+>
+>
+
 11. Why can't a many-to-many (M:N) relationship be directly implemented in a relational database? What is the solution? *(Section 10)*
 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Because you would have a lot of coliding data in different tables, the solution would be having junction tables that would sit between the two entities and hold the FK to both.)*
 >
 >
 >
@@ -169,7 +178,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Its insufficient becaus a single products.category_id model one-to-many relationship, each product can belong to just one category, because products often need several catagories.)*
 >
 >
 >
@@ -180,7 +189,7 @@ Answer each question in 2–4 sentences. Reference the relevant theory section. 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Employee (1,1)-----(1,N) Department.)*
 >
 >
 >
