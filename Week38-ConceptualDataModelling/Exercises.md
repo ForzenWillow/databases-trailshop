@@ -236,7 +236,7 @@ a) Can an author exist without having written any books? Explain using the notat
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Yes author can exist, author can have 0 to many books.)*
 >
 >
 >
@@ -246,7 +246,7 @@ b) Can a book exist without being loaned? Explain using the notation.
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(yes it can exist,book can have 0 or many loans.)*
 >
 >
 >
@@ -258,7 +258,7 @@ c) What type of entity is Loan in this diagram? Is it a junction/associative ent
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *( Its a junction entity since book and member feeding the loan with many to many relationship.)*
 >
 >
 >
@@ -270,7 +270,7 @@ d) What is the cardinality of the Author-Book relationship? Is this realistic? W
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(author (1,1)----(0,N)Book. Its not realisitc simce one book can have many authors its too restrictive, more accurate would be many-to-many.)*
 >
 >
 >
@@ -282,7 +282,7 @@ e) What attributes would you add to the Loan entity?
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(loan_id ; book_id ; member_id ; loan_id ; due_date.)*
 >
 >
 >
@@ -313,7 +313,7 @@ a) Can a student exist without being enrolled in any course?
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(yes a student can exist with 0 enrollment.)*
 >
 >
 >
@@ -325,7 +325,7 @@ b) Can a course exist without having any enrolled students?
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(No it cant, it has to have atleast 1 student.)*
 >
 >
 >
@@ -337,7 +337,7 @@ c) What is the cardinality between Student and Course (through Enrollment)?
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Many-to-many .)*
 >
 >
 >
@@ -349,7 +349,7 @@ d) Can a teacher exist without teaching any courses?
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(No, a teacher can not exist.)*
 >
 >
 >
@@ -361,7 +361,7 @@ e) Is the Teacher-Course relationship 1:1 or 1:N? What does this imply about tea
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(1:N one course to many teachers. so on one half it can be and on the other it cant)*
 >
 >
 >
