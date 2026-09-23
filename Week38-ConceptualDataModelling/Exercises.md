@@ -396,10 +396,13 @@ FitZone is a local gym and fitness center. They need a database to manage their 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
->
->
+> *(members - member_id(PK) ; first_name ; last_name ; email ; phone ; date_of_birh ; membership_start_date ; plan_id (FK).)*
+> *(membership plans - plan_id (PK) ; name ; monthly_price ; description )*
+> *(trainers - trainer_id (PK) ; first_name ; last_name ; specialization ; hire_date )*
+> *(classes - coass_id (PK) ; name ; day_of_the_week ; start_time ; end_time ; maximum_capacity ; trainer_id (FK))*
+> *(register - register_id (PK = member_id (FK) + class_id (FK)) ; registration_date  )*
+> *(equipment - equipment_id (PK) ; name ; type ; purchase_date ; status)*
+> *(maintenance_request - maintenance_id (PK) ; request_date ; description ; status ; resolution_date ; equipment_id (FK))*
 >
 
 2. Identify all relationships with their cardinality and participation constraints.
@@ -407,18 +410,20 @@ FitZone is a local gym and fitness center. They need a database to manage their 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Membership_plan (0:M) ----- (1:1)Member.)*
 >
+> *(Classes(1:1) ---- (0:M)Trainer)*
 >
+> *(Member (1,1) ----- (0:M)registration ----- (1,1)classes )*
 >
->
+> *(Equipment (0:M) ---- (1:1)Maintenance_request)*
 
 3. Draw a complete ER diagram using crow's foot notation.
 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Add a link to your image here)*
+> *(Added a folder `Excercise 5.3` with an image )*
 >
 >
 >
@@ -429,7 +434,7 @@ FitZone is a local gym and fitness center. They need a database to manage their 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(It would be registration since it sits between member and calss wich is kinda a mandatory thing for a juction entity.)*
 >
 >
 >
@@ -440,7 +445,7 @@ FitZone is a local gym and fitness center. They need a database to manage their 
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(it would be Registration junktion that resolves Member and calss .)*
 >
 >
 >
@@ -485,10 +490,10 @@ a) State what the error is
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
->
->
+> *(`genres` is stored in a string with multiple values.)*
+> *(Books to Customer - it doesnt have a junction table as it says)*
+> *(Books - Books is prular , while other entities are sngular)*
+> *(Books to Purchase - it has no reltaionship)*
 >
 
 b) Explain why it's a problem (reference the relevant theory section)
@@ -496,10 +501,10 @@ b) Explain why it's a problem (reference the relevant theory section)
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
->
->
+> *(`genres` - it violates automicity rule, an attribute should only hold a single value.)*
+> *(Books to Customer - it doesnt work as a relational model)*
+> *(Books - it has to be consisten throughout ebery entity naming since it can get mixed up with other stuff)*
+> *( Books to purchase - its bad since purchase records are kinda useless if you wont know what kind of books were bought)*
 >
 
 c) Describe how to fix it
@@ -507,10 +512,10 @@ c) Describe how to fix it
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
->
->
->
+> *(`genre` - create a seperate entity and make a junction entity for book_id and genre_id.)*
+> *(Books to customer - create a junction table between book_id and customer_id )*
+> *(Pick one way to name all entities, it usually is name singulary)*
+> *(Books to purchase - add a relationship between purchase and book (M:M) )*
 >
 
 **Hints:** Think about multivalued attributes, M:N relationships, entity naming conventions, and missing relationships.
