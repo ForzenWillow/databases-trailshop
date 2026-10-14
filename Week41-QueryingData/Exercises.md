@@ -15,7 +15,11 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT p.name, p.price, p.quantity_in_stock
+> FROM products p
+> JOIN product_categories pc ON pc.product_id = p.product_id
+> JOIN categories c ON c.category_id = pc.category_id
+> WHERE c.name = 'Footwear';
 >
 >
 > ```
@@ -25,8 +29,10 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
->
+> SELECT * FROM products
+> WHERE price BETWEEN 50 AND 150
+> ORDER BY price ASC;
+> 
 >
 > ```
 
@@ -35,9 +41,10 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT * FROM customers
+> WHERE name LIKE 'M%' OR name LIKE 'K%';
 >
->
+>(I didnt have last name i only. had "name")
 > ```
 
 4. List all orders with status 'pending' or 'shipped', sorted by order date (most recent first).
@@ -45,7 +52,9 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT * FROM orders
+> WHERE status IN ('pending', 'shipped')
+> ORDER BY order_date DESC;
 >
 >
 > ```
@@ -55,7 +64,8 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT * FROM products
+> WHERE name ILIKE 'Pro%' OR name ILIKE 'pro%';
 >
 >
 > ```
@@ -68,7 +78,7 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT COUNT(*) AS total_products FROM products;
 >
 >
 > ```
@@ -78,7 +88,7 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT ROUND(AVG(price), 2) AS avg_price FROM products;
 >
 >
 > ```
@@ -88,7 +98,11 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> (SELECT name, price, 'most expensive' AS label
+> FROM products ORDER BY price DESC LIMIT 1)
+>   UNION ALL
+>   (SELECT name, price, 'cheapest' AS label
+> FROM products ORDER BY price ASC LIMIT 1);
 >
 >
 > ```
@@ -98,7 +112,12 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT c.name AS customer_name,
+>       COUNT(o.order_id) AS order_count
+> FROM customers c
+> LEFT JOIN orders o ON o.customer_id = c.customer_id
+> GROUP BY c.customer_id, c.name
+> ORDER BY order_count DESC;
 >
 >
 > ```
@@ -109,7 +128,10 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT o.status, SUM(oi.quantity * oi.unit_price) AS revenue
+> FROM orders o
+> JOIN order_items oi ON oi.order_id = o.order_id
+> GROUP BY o.status;
 >
 >
 > ```
@@ -121,7 +143,11 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT p.name AS product, c.name AS category
+> FROM products p
+> JOIN product_categories pc ON pc.product_id = p.product_id
+> JOIN categories c ON c.category_id = pc.category_id
+> ORDER BY c.name, p.name;
 >
 >
 > ```
@@ -131,7 +157,12 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT o.order_id,
+>       c.name AS customer_name,
+>       o.order_date, o.status
+> FROM orders o
+> JOIN customers c ON c.customer_id = o.customer_id;
+>
 >
 >
 > ```
@@ -141,7 +172,11 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT p.name, oi.quantity, oi.unit_price,
+>       oi.quantity * oi.unit_price AS line_total
+> FROM order_items oi
+> JOIN products p ON p.product_id = oi.product_id
+> WHERE oi.order_id = 1;
 >
 >
 > ```
@@ -151,7 +186,10 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT c.*
+> FROM customers c
+> LEFT JOIN orders o ON o.customer_id = c.customer_id
+> WHERE o.order_id IS NULL;
 >
 >
 > ```
@@ -161,7 +199,15 @@ Use the TrailShop database you created in Week 40. Write SQL queries to answer e
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT c.name AS category,
+>       COUNT(p.product_id) AS product_count,
+>       ROUND(AVG(p.price), 2) AS avg_price,
+>       SUM(p.price * p.stock) AS inventory_value
+> FROM categories c
+> JOIN product_categories pc ON pc.category_id = c.category_id
+> JOIN products p ON p.product_id = pc.product_id
+> GROUP BY c.category_id, c.name
+> HAVING SUM(p.price * p.stock) > 500;
 >
 >
 > ```
@@ -177,7 +223,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Its: FROM / JOIN ; WHERE ; GROUP BY ; HAVING ; SELECT ; DISTINCT ; ORDER BY ; LIMIT / OFFSET . Because it explains more logical naming of the execution clauses?? .)*
 >
 >
 >
@@ -190,7 +236,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *('WHERE' filters which row to return BEFORE GROUPING and 'HAVING' filters groups AFTER GROUPING, for example 'WHERE' price > 50 keeps only pricier products, while 'HAVING COUNT'("all") 3 keeps only categories with more than 3 products.)*
 >
 >
 >
@@ -201,7 +247,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *'(COUNT(all)' - counts al rows including those wtih NULL ; COUNT(column) - counts rows where that column is not NULL ; COUNT(DISTINCT column) - counts unique non-NULL values.)*
 >
 >
 >
@@ -212,7 +258,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(INNER JOIN returns only rows that have matching values in both table while LEFT (OUTER) JOIN returns all rows from the left table and matching rows from the right table but if no match exist it will fill in NULL values in the right column. We can use INNER JOIN when we want to have only matching data and LEFT JOIN when we need to fill with NULL .)*
 >
 >
 >
@@ -225,7 +271,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Because you transfer more data than you need and if columns are added/removed the query can return different results.)*
 >
 >
 >
@@ -238,7 +284,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(DISTINCT removes duplicate rows from the results. It applies to the entire row.)*
 >
 >
 >
@@ -253,7 +299,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(No you cant use. Because WHERE runs before SELECT.)*
 >
 >
 >
@@ -263,7 +309,7 @@ Answer in your own words:
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Postgrs would throw an error because there could be diferent values and it would not know which to show .)*
 >
 >
 >
