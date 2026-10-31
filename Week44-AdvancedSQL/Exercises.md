@@ -19,7 +19,9 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT name, price
+> FROM products
+> WHERE price > (SELECT AVG(price) FROM products);
 >
 >
 > ```
@@ -28,7 +30,11 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT name
+> FROM customers
+> WHERE customer_id IN (SELECT customer_id FROM orders
+> GROUP BY customer_id
+> HAVING COUNT(*) > 2);
 >
 >
 > ```
@@ -49,7 +55,18 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT customers.name
+>FROM customers
+>WHERE EXISTS(
+>    SELECT 1
+>    FROM orders
+>    JOIN order_items ON order_items.order_id = orders.order_id
+>    JOIN products ON products.product_id = order_items.product_id
+>    JOIN product_categories ON product_categories.product_id = products.product_id
+>    JOIN categories ON categories.category_id = product_categories.category_id
+>    WHERE orders.customer_id = customers.customer_id
+>      AND categories.name IN ('Footwear')
+>);
 >
 >
 > ```
@@ -58,7 +75,13 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT products.name
+> FROM products
+> WHERE NOT EXISTS (
+>    SELECT 1
+>    FROM order_items
+>    WHERE order_items.product_id = products.product_id
+>);
 >
 >
 > ```
@@ -70,7 +93,14 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT products.name,
+>       products.price,
+>       CASE
+>           WHEN price < 25 THEN 'Budget'
+>           WHEN price < 74.99 THEN 'Standard'
+>           WHEN price >= 75 THEN 'Premium'
+>        END AS price_tier
+> FROM products;
 >
 >
 > ```
@@ -79,7 +109,11 @@ Write the following queries using subqueries:
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT
+>    COUNT(*) AS total_orders,
+>    COUNT(CASE WHEN status = 'shipped' THEN 1 END) AS shiped,
+>    COUNT(CASE WHEN status = 'paid' THEN 1 END) AS paid
+> FROM orders;
 >
 >
 > ```
@@ -98,7 +132,39 @@ Verify each view works with a simple SELECT.
 > ***Your SQL***
 >
 > ```sql
-> -- Write your CREATE VIEW statements here
+> CREATE VIEW v_product_catalog AS
+> SELECT
+>    products.name AS product_name,
+>    categories.name AS category_name,
+>    products.price,
+>    products.quantity_in_stock,
+>    CASE
+>        WHEN products.quantity_in_stock = 0 THEN 'Out of Stock'
+>        WHEN products.quantity_in_stock < 5 THEN 'Low Stock'
+>        ELSE 'In Stock'
+>    END AS available
+> FROM products
+> JOIN product_categories ON product_categories.product_id =  products.product_id
+> JOIN categories ON categories.category_id = product_categories.category_id;
+>
+> CREATE VIEW v_customer_summary AS
+> SELECT
+>    customers.name AS full_name,
+>    customers.email,
+>    COUNT(DISTINCT orders.order_id) AS order_count,
+>    COALESCE(SUM(order_items.quantity * order_items.unit_price), 0) AS total_spent
+>FROM customers
+>LEFT JOIN orders ON orders.customer_id = customers.customer_id
+>LEFT JOIN order_items ON order_items.order_id = orders.order_id
+>GROUP BY customers.customer_id, customers.customer_id, customers.email ;
+>
+>CREATE VIEW v_monthly_revenue AS
+>    SELECT
+>    DATE_TRUNC('month', order_date) AS month,
+>    SUM(order_items.quantity * order_items.unit_price) AS revenue
+>FROM orders
+>JOIN order_items ON order_items.order_id = orders.order_id
+>GROUP BY month;
 >
 >
 > ```
@@ -110,7 +176,19 @@ Verify each view works with a simple SELECT.
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT products.name
+> FROM products
+> JOIN product_categories ON product_categories.product_id = products.product_id
+> JOIN categories ON categories.category_id = product_categories.category_id
+> WHERE categories.name = 'Footwear'
+>
+> UNION
+> 
+> SELECT products.name
+> FROM products
+> JOIN product_categories ON product_categories.product_id = products.product_id
+> JOIN categories ON categories.category_id = product_categories.category_id
+> WHERE categories.name = 'Clothing'
 >
 >
 > ```
@@ -119,7 +197,16 @@ Verify each view works with a simple SELECT.
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> SELECT categories.name
+> FROM categories
+> JOIN product_categories ON product_categories.category_id = categories.category_id
+>
+> EXCEPT
+>
+> SELECT categories.name
+> FROM categories
+> JOIN product_categories ON product_categories.category_id = categories.category_id
+> JOIN order_items ON order_items.product_id = product_categories.product_id;
 >
 >
 > ```
@@ -131,7 +218,28 @@ Verify each view works with a simple SELECT.
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> WITH
+> category_revenue AS (
+>    SELECT
+>        pc.category_id,
+>        SUM(oi.quantity * oi.unit_price) AS revenue
+>    FROM product_categories pc
+>    JOIN order_items oi ON oi.product_id = pc.product_id
+>    GROUP BY pc.category_id
+>),
+> avg_category_revenue AS (
+>    SELECT AVG(revenue) AS avg_revenue
+>    FROM category_revenue
+>)
+> SELECT
+>    cat.name AS category_name,
+>    cr.revenue,
+>    ROUND(acr.avg_revenue, 2) AS avg_revenue
+> FROM category_revenue cr
+> JOIN categories cat ON cat.category_id = cr.category_id
+> CROSS JOIN avg_category_revenue acr
+> WHERE cr.revenue > acr.avg_revenue
+> ORDER BY cr.revenue DESC;
 >
 >
 > ```
@@ -140,7 +248,28 @@ Verify each view works with a simple SELECT.
 > ***Your SQL***
 >
 > ```sql
-> -- Write your query here
+> WITH
+> customer_order_counts AS (
+>    SELECT
+>        c.customer_id,
+>        c.name,
+>        COUNT(o.order_id) AS order_count
+>    FROM customers c
+>    LEFT JOIN orders o ON o.customer_id = c.customer_id
+>    GROUP BY c.customer_id, c.name
+> ),
+> avg_order_count AS (
+>    SELECT AVG(order_count) AS avg_orders
+>    FROM customer_order_counts
+> )
+> SELECT
+>    coc.name,
+>    coc.order_count,
+>    ROUND(aoc.avg_orders, 2) AS avg_orders
+> FROM customer_order_counts coc
+> CROSS JOIN avg_order_count aoc
+> WHERE coc.order_count > aoc.avg_orders
+> ORDER BY coc.order_count DESC;
 >
 >
 > ```
@@ -156,7 +285,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(`INNER JOIN` returns only rows that have a match in both tables. `LEFT JOIN` returns all rows from the left table, and if there is no match the right side columns are NULL. I would choose `LEFT JOIN` when I don't want to lose rows.)*
 >
 >
 >
@@ -168,7 +297,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(A correlated subquery is a subquery that uses a value from the outer query, so it runs again for every row of the outer query, like a loop. For example comparing each product's price to the average of its own category. An uncorrelated subquery runs only once, so the correlated one can be slow on big tables.)*
 >
 >
 >
@@ -180,7 +309,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(`IN` checks if a value is in a list or in the result of a subquery. `EXISTS` only checks if the subquery returns at least one row, it doesn't care about the values. `EXISTS` can stop at the first match, so I would prefer it when the subquery result is big or the condition is complex.)*
 >
 >
 >
@@ -192,7 +321,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(Both `SELECT` statements must return the same number of columns. The columns in the same position must have compatible data types.)*
 >
 >
 >
@@ -204,7 +333,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(`UNION` combines the results and removes duplicates. `UNION ALL` keeps all rows including duplicates and is faster because it skips the duplicate check. I would use `UNION` when a row could appear twice and I want it only once. `UNION ALL` when there are no duplicates or I want to count them.)*
 >
 >
 >
@@ -216,7 +345,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(A view is a saved query with a name that works like a virtual table, it doesn't store the data itself. Advantage 1: it simplifies complex queries. Advantage 2: security, you can give a user access to the view instead of the full table with sensitive columns.)*
 >
 >
 >
@@ -226,7 +355,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(`WITH CHECK OPTION` blocks `INSERT` or `UPDATE` through the view if the new row would not be visible in that view anymore because of its `WHERE`.)*
 >
 >
 >
@@ -238,7 +367,7 @@ Answer these in your own words (2–4 sentences each):
 > [!NOTE]
 > ***Your Answer***
 >
-> *(Write your answer here.)*
+> *(A derived table is a subquery written inside `FROM` and it must have an alias. A CTE is written at the start with `WITH` and gets a name, so the query reads from top to bottom step by step. The main advantage is readability, and a CTE can be used multiple times in the same query.)*
 >
 >
 >
